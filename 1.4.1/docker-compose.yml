@@ -1,0 +1,19 @@
+db:
+    container_name: db
+    image: postgres
+    ports:
+        - "5432:5432"
+    environment:
+        POSTGRES_USER: libreplan
+        POSTGRES_PASSWORD: secret
+    volumes:
+        - ./sql:/docker-entrypoint-initdb.d
+
+web:
+    container_name: web
+    build: .
+    dockerfile: Dockerfile
+    ports:
+        - "8080:8080"
+    links:
+        - db
