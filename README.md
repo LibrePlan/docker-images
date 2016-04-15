@@ -7,3 +7,8 @@
 This repo contains all the files needed to build libreplan docker images.
 This images are available on https://hub.docker.com/r/libreplan/libreplan.
 
+Currently, you'll find:
+
+- 1.4.1: Libreplan 1.4.1 image using a Postgresql database
+- 1.4.1-mysql: Libreplan 1.4.1 image using a MySQL database
+

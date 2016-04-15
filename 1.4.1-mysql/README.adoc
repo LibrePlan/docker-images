@@ -1,0 +1,4 @@
+# Libreplan MySQL
+
+This LibrePlan docker image allow to use a MySQL database instead of a Postgresql.
+
