@@ -1,6 +1,6 @@
 db:
     container_name: db
-    image: postgres:9.4
+    image: postgres
     ports:
         - "5432:5432"
     environment:
@@ -11,7 +11,8 @@ db:
 
 web:
     container_name: web
-    image: libreplan/libreplan:latest
+    build: .
+    dockerfile: Dockerfile
     ports:
         - "8080:8080"
     links:

@@ -13,7 +13,8 @@ db:
 
 web:
     container_name: web
-    image: libreplan/libreplan:1.4.1-mysql
+    build: .
+    dockerfile: Dockerfile
     ports:
         - "8080:8080"
     links:
