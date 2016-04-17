@@ -16,6 +16,7 @@ RUN curl -SL $MYSQL_JDBC_URL \
 
 COPY assets/libreplan.xml $CATALINA_HOME/conf/Catalina/localhost/
 COPY assets/catalina.policy $CATALINA_HOME/conf/
+COPY assets/setenv.sh $CATALINA_HOME/bin/
 ADD $LIBREPLAN_MYSQL_WAR_URL $CATALINA_HOME/webapps/libreplan.war
 
 RUN apt-get update && apt-get install -y \
