@@ -25,3 +25,11 @@ fi
 if [ "$LIBREPLAN_DBPASSWORD" ]; then
   sed -i "s/password=\"[^\"]*\"/password=\"$LIBREPLAN_DBPASSWORD\"/" $LIBREPLAN_XML
 fi
+
+if [ "$LIBREPLAN_CONTEXT" ]; then
+    mv $CATALINA_HOME/conf/Catalina/localhost/libreplan.xml \
+       $CATALINA_HOME/conf/Catalina/localhost/$LIBREPLAN_CONTEXT.xml
+
+    mv $CATALINA_HOME/webapps/libreplan.war \
+       $CATALINA_HOME/webapps/$LIBREPLAN_CONTEXT.war
+fi
