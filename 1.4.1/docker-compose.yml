@@ -1,18 +1,43 @@
-db:
-    container_name: db
-    image: postgres:9.4
-    ports:
-        - "5432:5432"
-    environment:
-        POSTGRES_USER: libreplan
-        POSTGRES_PASSWORD: secret
-    volumes:
-        - ./sql:/docker-entrypoint-initdb.d
+version: "3.9"
 
-web:
-    container_name: web
-    image: libreplan/libreplan:latest
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: libreplan
+      POSTGRES_PASSWORD: libreplan
+      POSTGRES_DB: libreplan
+    volumes:
+      - libreplan_pgdata:/var/lib/postgresql/data
+      # Alle .sql/.sh in deze map worden automatisch uitgevoerd bij eerste init
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U libreplan -d libreplan"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [appnet]
+    restart: unless-stopped
+
+  libreplan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        LIBREPLAN_VERSION: "1.4.1"
+        PG_JDBC_VERSION: "42.7.4"
+    image: libreplan/libreplan:oci-1.4.1
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
-        - "8080:8080"
-    links:
-        - db
+      - "8080:8080"
+    networks: [appnet]
+    restart: unless-stopped
+
+networks:
+  appnet:
+
+volumes:
+  libreplan_pgdata:
+
